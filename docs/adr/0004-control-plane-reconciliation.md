@@ -79,4 +79,3 @@ pause decisions reduce availability during uncertainty.
 Rejected alternatives: a read-then-write claim race, a mutable “latest state”
 row without an audit trail, and treating target history as a desired-state
 source would each permit duplicate or unverified execution.
-

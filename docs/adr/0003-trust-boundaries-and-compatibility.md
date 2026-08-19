@@ -133,4 +133,3 @@ The supported matrix is narrower than the underlying tools, and credential
 rotation requires an external secret-management capability. These costs buy
 deterministic CI, reviewable upgrades, safe redaction, and an unambiguous pause
 when ownership, compatibility, or evidence is incomplete.
-

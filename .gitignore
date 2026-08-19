@@ -1,6 +1,7 @@
 # Go
 /bin/
 /coverage.out
+/.test-artifacts/
 /*.test
 
 # Local configuration and secrets

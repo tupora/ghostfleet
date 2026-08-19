@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: api-breaking api-check api-generate api-lint api-tools build check dev-down dev-up fmt test vet
+.PHONY: api-breaking api-check api-generate api-lint api-tools build check dev-down dev-up fmt integration-check test vet
 
 BUF := go run github.com/bufbuild/buf/cmd/buf@v1.50.0
 API_TOOLS := $(CURDIR)/.tools/bin
@@ -48,6 +48,12 @@ check:
 	go vet ./...
 	go test -race ./...
 	go build ./...
+
+integration-check:
+	set -eu; trap '$(MAKE) dev-down' EXIT INT TERM; $(MAKE) dev-up; \
+	GHOSTFLEET_POSTGRES_DSN='postgres://ghostfleet:ghostfleet@127.0.0.1:5432/ghostfleet?sslmode=disable' \
+	GHOSTFLEET_MYSQL_DSN='ghostfleet:ghostfleet@tcp(127.0.0.1:3306)/ghostfleet?parseTime=true' \
+	go test -race -tags=integration ./internal/testharness
 
 dev-up:
 	docker compose up -d --wait

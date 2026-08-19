@@ -52,10 +52,12 @@ API versions, and ambiguous authorization fail closed with no state change.
 ## Reproducible generation and compatibility checks
 
 `api/proto` is the source of truth. `buf.yaml` pins lint and breaking-change
-policy, and `buf.gen.yaml` pins the remote Go and gRPC plugins. `make api-generate`
-regenerates the committed Go files under `api/gen`; `make api-check` lints the
-source, regenerates the output, verifies that generation is clean, and compares
-the schema with the `main` branch using Buf's `FILE` breaking rules.
+policy, while `Makefile` pins the Go and gRPC generator versions used by
+`buf.gen.yaml`. `make api-generate` installs those generators into the ignored
+local tools directory and regenerates the committed Go files under `api/gen`.
+`make api-check` lints the source, regenerates the output, verifies that
+generation is clean, and compares the schema with the `main` branch using Buf's
+`FILE` breaking rules.
 
 Compatibility rules are additive within `v1`: field numbers and meanings are
 never reused, existing RPCs and message fields are not removed or repurposed,
@@ -68,8 +70,7 @@ changes in `v1` would make persisted plans and clients unsafe to upgrade.
 
 ## Consequences
 
-Buf and the pinned remote plugins are build-time dependencies, while runtime
-code depends only on the generated protobuf and gRPC packages. The API remains
+Buf and the pinned generators are build-time dependencies, while runtime code
+depends only on the generated protobuf and gRPC packages. The API remains
 narrow until storage and execution semantics are ready, and every schema change
 has an inspectable generated artifact and compatibility result.
-

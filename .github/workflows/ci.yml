@@ -27,3 +27,48 @@ jobs:
 
       - name: Verify
         run: make check
+
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: ghostfleet
+          POSTGRES_PASSWORD: ghostfleet
+          POSTGRES_USER: ghostfleet
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ghostfleet -d ghostfleet"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 20
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: ghostfleet
+          MYSQL_PASSWORD: ghostfleet
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: ghostfleet
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd "mysqladmin ping -h localhost -proot"
+          --health-interval 2s
+          --health-timeout 3s
+          --health-retries 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Verify database harness
+        env:
+          GHOSTFLEET_POSTGRES_DSN: postgres://ghostfleet:ghostfleet@127.0.0.1:5432/ghostfleet?sslmode=disable
+          GHOSTFLEET_MYSQL_DSN: ghostfleet:ghostfleet@tcp(127.0.0.1:3306)/ghostfleet?parseTime=true
+        run: go test -race -tags=integration ./internal/testharness ./storage
