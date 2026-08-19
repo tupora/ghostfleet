@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package ghostfleet.v1;
+
+option go_package = "github.com/tupora/ghostfleet/api/gen/ghostfleet/v1;ghostfleetv1";
+
+service SchemaService {
+  rpc GetVersion(GetVersionRequest) returns (SchemaVersion);
+}
+
+service MigrationService {
+  rpc GetMigration(GetMigrationRequest) returns (Migration);
+}
+
+message GetVersionRequest {
+  string version = 1;
+}
+
+message SchemaVersion {
+  string version = 1;
+  string parent_version = 2;
+  string schema_checksum = 3;
+  string schema_fingerprint = 4;
+  string git_commit = 5;
+}
+
+message GetMigrationRequest {
+  string migration_id = 1;
+}
+
+message Migration {
+  string migration_id = 1;
+  string target_id = 2;
+  string source_fingerprint = 3;
+  string destination_fingerprint = 4;
+  string state = 5;
+}
+

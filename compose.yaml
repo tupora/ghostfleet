@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: ghostfleet
+      POSTGRES_PASSWORD: ghostfleet
+      POSTGRES_USER: ghostfleet
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ghostfleet -d ghostfleet"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+    ports:
+      - "5432:5432"
+    volumes:
+      - ghostfleet-postgres:/var/lib/postgresql/data
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ghostfleet
+      MYSQL_PASSWORD: ghostfleet
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ghostfleet
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    ports:
+      - "3306:3306"
+    volumes:
+      - ghostfleet-mysql:/var/lib/mysql
+
+volumes:
+  ghostfleet-mysql:
+  ghostfleet-postgres:
+
