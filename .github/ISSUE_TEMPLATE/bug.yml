@@ -1,0 +1,57 @@
+name: Bug report
+description: Report incorrect or unsafe GhostFleet behavior.
+title: "[Bug] "
+labels:
+  - type:bug
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Observed behavior
+      description: Include the state, command, target type, and relevant sanitized output.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Safety impact
+      options:
+        - Unknown
+        - No database mutation
+        - Incorrect plan or risk classification
+        - Duplicate or unauthorized database mutation
+        - History or audit integrity
+        - Credential or data exposure
+    validations:
+      required: true
+
+  - type: textarea
+    id: invariants
+    attributes:
+      label: Safety invariants
+      description: List any affected INV-001 through INV-010.
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction
+      description: Provide a minimal deterministic sequence with secrets removed.
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: GhostFleet commit, operating system, database versions, and engine version.
+    validations:
+      required: true
+

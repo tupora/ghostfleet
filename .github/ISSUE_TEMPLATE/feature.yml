@@ -1,0 +1,55 @@
+name: Feature proposal
+description: Propose scoped roadmap work with a verifiable exit condition.
+title: "[Feature] "
+labels:
+  - type:feature
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the operator or developer problem, not only the proposed implementation.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: phase
+    attributes:
+      label: Roadmap phase
+      options:
+        - Phase 0 — Foundation
+        - Phase 1 — Schema Foundation
+        - Phase 2 — Diff and Versioning
+        - Phase 3 — Migration Planning
+        - Phase 4 — Single-Target Execution
+        - Phase 5 — Distributed Execution
+        - Phase 6 — Rollout and Cutover
+        - Phase 7 — Rollback
+        - Phase 8 — Global Safety
+        - Phase 9 — GitOps and Ecosystem
+        - Unscheduled
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: List observable, deterministic outcomes.
+    validations:
+      required: true
+
+  - type: textarea
+    id: safety
+    attributes:
+      label: Safety and failure model
+      description: Identify affected invariants, failure paths, and reversibility.
+    validations:
+      required: true
+
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility impact
+      description: Note storage, API, plan format, schema format, and supported-version implications.
+
