@@ -15,4 +15,6 @@
 
 # Generated API artifacts
 /api/gen/
-
+!/api/gen/
+!/api/gen/**
+/.tools/

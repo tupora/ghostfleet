@@ -1,0 +1,15 @@
+version: v2
+
+modules:
+  - path: api/proto
+
+lint:
+  use:
+    - STANDARD
+  # These response names predate Buf adoption and remain wire-compatible in v1.
+  except:
+    - RPC_RESPONSE_STANDARD_NAME
+
+breaking:
+  use:
+    - FILE
