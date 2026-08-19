@@ -71,4 +71,4 @@ jobs:
         env:
           GHOSTFLEET_POSTGRES_DSN: postgres://ghostfleet:ghostfleet@127.0.0.1:5432/ghostfleet?sslmode=disable
           GHOSTFLEET_MYSQL_DSN: ghostfleet:ghostfleet@tcp(127.0.0.1:3306)/ghostfleet?parseTime=true
-        run: go test -race -tags=integration ./internal/testharness
+        run: go test -race -tags=integration ./internal/testharness ./storage

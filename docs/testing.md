@@ -30,4 +30,3 @@ The harness models process crashes through an explicit hook so the test process 
 not terminated. A production caller must treat that hook as a restart boundary.
 Unknown configuration or missing DSNs skip only the opt-in integration suite;
 the default unit and CI checks fail explicitly for implementation errors.
-
