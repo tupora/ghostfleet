@@ -57,7 +57,7 @@ func TestPostgresSchemaAndClaimTransaction(t *testing.T) {
 		VALUES ($1, $2, $3, 'source', 'fingerprint', 'PENDING', CURRENT_TIMESTAMP)`, deploymentID+"-duplicate", targetID, versionID); err == nil {
 		t.Fatal("duplicate target/version deployment unexpectedly succeeded")
 	}
-	if _, err := db.ExecContext(ctx, `INSERT INTO tasks(task_id, deployment_id) VALUES ($1, $2)`, taskID, deploymentID); err != nil {
+	if _, err := db.ExecContext(ctx, `INSERT INTO tasks(task_id, deployment_id, state) VALUES ($1, $2, 'PENDING')`, taskID, deploymentID); err != nil {
 		t.Fatal(err)
 	}
 
