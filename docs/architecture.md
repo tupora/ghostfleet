@@ -20,7 +20,8 @@ history.
 
 ## Unresolved decisions
 
-Architecture decision records must settle control-plane reconciliation, target
+Control-plane reconciliation remains a Phase 0 storage decision. Target
 credential handling, API authentication, supported compatibility ranges, engine
-process isolation, and audit retention before Phase 4 exits.
-
+process isolation, and audit redaction are defined in
+[ADR 0003](adr/0003-trust-boundaries-and-compatibility.md); changes to those
+contracts require a new ADR.
