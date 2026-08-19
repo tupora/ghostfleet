@@ -5,6 +5,7 @@ SHELL := /bin/sh
 BUF := go run github.com/bufbuild/buf/cmd/buf@v1.50.0
 API_TOOLS := $(CURDIR)/.tools/bin
 API_REMOTE ?= $(or $(shell git config --get remote.origin.url),https://github.com/tupora/ghostfleet.git)
+API_REMOTE_GIT := $(if $(filter %.git,$(API_REMOTE)),$(API_REMOTE),$(API_REMOTE).git)
 
 api-tools:
 	mkdir -p $(API_TOOLS)
@@ -18,7 +19,7 @@ api-lint:
 	$(BUF) lint
 
 api-breaking:
-	$(BUF) breaking --against "$(API_REMOTE)#branch=main,subdir=api/proto"
+	$(BUF) breaking --against "$(API_REMOTE_GIT)#branch=main,subdir=api/proto"
 
 api-check: api-lint api-generate
 	@git diff --exit-code -- api/gen || \
