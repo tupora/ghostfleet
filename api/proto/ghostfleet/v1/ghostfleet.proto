@@ -10,6 +10,7 @@ service SchemaService {
 
 service MigrationService {
   rpc GetMigration(GetMigrationRequest) returns (Migration);
+  rpc ClaimMigration(ClaimMigrationRequest) returns (ClaimMigrationResponse);
 }
 
 message GetVersionRequest {
@@ -22,6 +23,7 @@ message SchemaVersion {
   string schema_checksum = 3;
   string schema_fingerprint = 4;
   string git_commit = 5;
+  string target_id = 6;
 }
 
 message GetMigrationRequest {
@@ -34,5 +36,26 @@ message Migration {
   string source_fingerprint = 3;
   string destination_fingerprint = 4;
   string state = 5;
+  uint64 fencing_generation = 6;
 }
 
+message ClaimMigrationRequest {
+  string migration_id = 1;
+  string idempotency_key = 2;
+  uint64 expected_generation = 3;
+}
+
+message ClaimMigrationResponse {
+  Migration migration = 1;
+  uint64 fencing_generation = 2;
+}
+
+enum ErrorCode {
+  ERROR_CODE_UNSPECIFIED = 0;
+  ERROR_CODE_CONFLICT = 1;
+  ERROR_CODE_DRIFT_DETECTED = 2;
+  ERROR_CODE_FAILED_PRECONDITION = 3;
+  ERROR_CODE_NOT_FOUND = 4;
+  ERROR_CODE_STALE_FENCE = 5;
+  ERROR_CODE_VERSION_ALREADY_APPLIED = 6;
+}
